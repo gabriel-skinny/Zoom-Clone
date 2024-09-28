@@ -3,16 +3,19 @@
 import { useState } from "react";
 import MeetingType from "./MeetingType";
 import { useRouter } from "next/navigation";
+import MeetingModal from "./MeetingModal";
 
 type MeetingStateType =
   | "isScheduleMeeting"
-  | "isInstanteMeeting"
+  | "isInstantMeeting"
   | "isJoiningMeeting"
   | null;
 
 function MeetingTypeList() {
   const router = useRouter();
   const [meetingState, setMeetingState] = useState<MeetingStateType>(null);
+
+  const createMeeting = () => {};
 
   return (
     <section className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
@@ -21,7 +24,7 @@ function MeetingTypeList() {
         description="Start an instant meeting"
         backgroundColor="bg-orange-1"
         imageSrc="/icons/add-meeting.svg"
-        onClick={() => setMeetingState("isJoiningMeeting")}
+        onClick={() => setMeetingState("isInstantMeeting")}
       />
       <MeetingType
         title="Schedule Meeting"
@@ -35,7 +38,7 @@ function MeetingTypeList() {
         description="Via invitation link"
         backgroundColor="bg-blue-1"
         imageSrc="/icons/schedule.svg"
-        onClick={() => {}}
+        onClick={() => setMeetingState("isJoiningMeeting")}
       />
       <MeetingType
         title="View Recordings"
@@ -43,6 +46,15 @@ function MeetingTypeList() {
         backgroundColor="bg-yellow-1"
         imageSrc="/icons/recordings.svg"
         onClick={() => router.push("/recordings")}
+      />
+
+      <MeetingModal
+        isOpen={meetingState === "isInstantMeeting"}
+        onClose={() => setMeetingState(null)}
+        title="Start an Instant Meeting"
+        className="text-center"
+        buttonText="Start Meeting"
+        onClick={createMeeting}
       />
     </section>
   );
